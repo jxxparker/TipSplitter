@@ -17,6 +17,8 @@ class CalculateViewController: UIViewController {
     @IBOutlet weak var splitNumberLabel: UILabel!
     
     var tip = 0.10
+    var numberOfPeople = 2
+    var billTotal = 0.0
     
     @IBAction func tipChanged(_  sender: UIButton) {
         //Deselect all tip buttons via IBOutlets
@@ -41,19 +43,30 @@ class CalculateViewController: UIViewController {
     }
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
+        splitNumberLabel.text = String(format: "%.0f", sender.value)
         
+        //set the numberofpeople property as the value of the stepper as a whole
+        numberOfPeople = Int(sender.value)
     }
     
     
     @IBAction func calculatePressed(_ sender: UIButton) {
+        //Get the text the user typed in the billTextField
+        let bill = billTextField.text!
         
+        //If the text is not an empty String ""
+        if bill != "" {
+            
+            //Turn the bill from a String e.g. "123.50" to an actual String with decimal places.
+            //e.g. 125.50
+            billTotal = Double(bill)!
+            
+            //Multiply the bill by the tip percentage and divide by the number of people to split the bill.
+            let result = billTotal * (1 + tip) / Double(numberOfPeople)
+            
+            //Round the result to 2 decimal places and turn it into a String.
+            let resultTo2DecimalPlaces = String(format: "%.2f", result)
+        }
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-    
-    
 }
 
